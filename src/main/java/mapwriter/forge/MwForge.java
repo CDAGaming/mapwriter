@@ -26,7 +26,7 @@ public class MwForge {
 
     public static Logger logger = LogManager.getLogger(Reference.MOD_ID);
 
-    @EventHandler
+    @Mod.EventHandler
     public void load(FMLInitializationEvent event) {
         proxy.load();
     }
@@ -44,12 +44,12 @@ public class MwForge {
         }
     }
 
-    @EventHandler
+    @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit();
     }
 
-    @EventHandler
+    @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
         proxy.preInit(event.getSuggestedConfigurationFile());
