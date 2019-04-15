@@ -1,159 +1,132 @@
 package mapwriter.overlay;
 
-import java.awt.Point;
-import java.util.ArrayList;
-
-import mapwriter.api.ILabelInfo;
-import mapwriter.api.IMapMode;
-import mapwriter.api.IMapView;
-import mapwriter.api.IMwChunkOverlay;
-import mapwriter.api.IMwDataProvider;
+import mapwriter.api.*;
 import net.minecraft.util.math.MathHelper;
 
-public class OverlayChecker implements IMwDataProvider
-{
+import java.awt.*;
+import java.util.ArrayList;
 
-	public class ChunkOverlay implements IMwChunkOverlay
-	{
+public class OverlayChecker implements IMwDataProvider {
 
-		Point coord;
+    @Override
+    public ArrayList<IMwChunkOverlay> getChunksOverlay(int dim, double centerX, double centerZ, double minX, double minZ, double maxX, double maxZ) {
 
-		public ChunkOverlay(int x, int z)
-		{
-			this.coord = new Point(x, z);
-		}
+        // We should pass the center of the map too to reduce the display like
+        // in this case
+        // and the zoom lvl, to provide higher level informations
 
-		@Override
-		public int getBorderColor()
-		{
-			return 0xff000000;
-		}
+        int minChunkX = (MathHelper.ceil(minX) >> 4) - 1;
+        int minChunkZ = (MathHelper.ceil(minZ) >> 4) - 1;
+        int maxChunkX = (MathHelper.ceil(maxX) >> 4) + 1;
+        int maxChunkZ = (MathHelper.ceil(maxZ) >> 4) + 1;
+        int cX = (MathHelper.ceil(centerX) >> 4) + 1;
+        int cZ = (MathHelper.ceil(centerZ) >> 4) + 1;
 
-		@Override
-		public float getBorderWidth()
-		{
-			return 0.5f;
-		}
+        int limitMinX = Math.max(minChunkX, cX - 100);
+        int limitMaxX = Math.min(maxChunkX, cX + 100);
+        int limitMinZ = Math.max(minChunkZ, cZ - 100);
+        int limitMaxZ = Math.min(maxChunkZ, cZ + 100);
 
-		@Override
-		public int getColor()
-		{
-			return 0x90ffffff;
-		}
+        ArrayList<IMwChunkOverlay> chunks = new ArrayList<IMwChunkOverlay>();
+        for (int x = limitMinX; x <= limitMaxX; x++) {
+            for (int z = limitMinZ; z <= limitMaxZ; z++) {
+                if ((x + z) % 2 == 0) {
+                    chunks.add(new ChunkOverlay(x, z));
+                }
+            }
+        }
+        ;
 
-		@Override
-		public Point getCoordinates()
-		{
-			return this.coord;
-		}
+        return chunks;
+    }
 
-		@Override
-		public float getFilling()
-		{
-			return 1.0f;
-		}
+    @Override
+    public ILabelInfo getLabelInfo(int mouseX, int mouseY) {
+        return null;
+    }
 
-		@Override
-		public boolean hasBorder()
-		{
-			return true;
-		}
+    @Override
+    public String getStatusString(int dim, int bX, int bY, int bZ) {
+        return "";
+    }
 
-	}
+    @Override
+    public void onDimensionChanged(int dimension, IMapView mapview) {
+    }
 
-	@Override
-	public ArrayList<IMwChunkOverlay> getChunksOverlay(int dim, double centerX, double centerZ, double minX, double minZ, double maxX, double maxZ)
-	{
+    @Override
+    public void onDraw(IMapView mapview, IMapMode mapmode) {
 
-		// We should pass the center of the map too to reduce the display like
-		// in this case
-		// and the zoom lvl, to provide higher level informations
+    }
 
-		int minChunkX = (MathHelper.ceil(minX) >> 4) - 1;
-		int minChunkZ = (MathHelper.ceil(minZ) >> 4) - 1;
-		int maxChunkX = (MathHelper.ceil(maxX) >> 4) + 1;
-		int maxChunkZ = (MathHelper.ceil(maxZ) >> 4) + 1;
-		int cX = (MathHelper.ceil(centerX) >> 4) + 1;
-		int cZ = (MathHelper.ceil(centerZ) >> 4) + 1;
+    @Override
+    public void onMapCenterChanged(double vX, double vZ, IMapView mapview) {
 
-		int limitMinX = Math.max(minChunkX, cX - 100);
-		int limitMaxX = Math.min(maxChunkX, cX + 100);
-		int limitMinZ = Math.max(minChunkZ, cZ - 100);
-		int limitMaxZ = Math.min(maxChunkZ, cZ + 100);
+    }
 
-		ArrayList<IMwChunkOverlay> chunks = new ArrayList<IMwChunkOverlay>();
-		for (int x = limitMinX; x <= limitMaxX; x++)
-		{
-			for (int z = limitMinZ; z <= limitMaxZ; z++)
-			{
-				if ((x + z) % 2 == 0)
-				{
-					chunks.add(new ChunkOverlay(x, z));
-				}
-			}
-		}
-		;
+    @Override
+    public void onMiddleClick(int dim, int bX, int bZ, IMapView mapview) {
+    }
 
-		return chunks;
-	}
+    @Override
+    public boolean onMouseInput(IMapView mapview, IMapMode mapmode) {
 
-	@Override
-	public ILabelInfo getLabelInfo(int mouseX, int mouseY)
-	{
-		return null;
-	}
+        return false;
+    }
 
-	@Override
-	public String getStatusString(int dim, int bX, int bY, int bZ)
-	{
-		return "";
-	}
+    @Override
+    public void onOverlayActivated(IMapView mapview) {
 
-	@Override
-	public void onDimensionChanged(int dimension, IMapView mapview)
-	{
-	}
+    }
 
-	@Override
-	public void onDraw(IMapView mapview, IMapMode mapmode)
-	{
+    @Override
+    public void onOverlayDeactivated(IMapView mapview) {
 
-	}
+    }
 
-	@Override
-	public void onMapCenterChanged(double vX, double vZ, IMapView mapview)
-	{
+    @Override
+    public void onZoomChanged(int level, IMapView mapview) {
 
-	}
+    }
 
-	@Override
-	public void onMiddleClick(int dim, int bX, int bZ, IMapView mapview)
-	{
-	}
+    public class ChunkOverlay implements IMwChunkOverlay {
 
-	@Override
-	public boolean onMouseInput(IMapView mapview, IMapMode mapmode)
-	{
+        Point coord;
 
-		return false;
-	}
+        public ChunkOverlay(int x, int z) {
+            this.coord = new Point(x, z);
+        }
 
-	@Override
-	public void onOverlayActivated(IMapView mapview)
-	{
+        @Override
+        public int getBorderColor() {
+            return 0xff000000;
+        }
 
-	}
+        @Override
+        public float getBorderWidth() {
+            return 0.5f;
+        }
 
-	@Override
-	public void onOverlayDeactivated(IMapView mapview)
-	{
+        @Override
+        public int getColor() {
+            return 0x90ffffff;
+        }
 
-	}
+        @Override
+        public Point getCoordinates() {
+            return this.coord;
+        }
 
-	@Override
-	public void onZoomChanged(int level, IMapView mapview)
-	{
+        @Override
+        public float getFilling() {
+            return 1.0f;
+        }
 
-	}
+        @Override
+        public boolean hasBorder() {
+            return true;
+        }
+
+    }
 
 }

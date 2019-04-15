@@ -2,64 +2,63 @@ package mapwriter.api;
 
 import java.util.List;
 
-public interface IMapView
-{
-	public int adjustZoomLevel(int n);
+public interface IMapView {
+    public int adjustZoomLevel(int n);
 
-	public int getDimension();
+    public int getDimension();
 
-	public double getDimensionScaling(int playerDimension);
+    public void setDimension(int dimension);
 
-	public double getHeight();
+    public double getDimensionScaling(int playerDimension);
 
-	public double getMaxX();
+    public double getHeight();
 
-	public double getMaxZ();
+    public double getMaxX();
 
-	public double getMinX();
+    public double getMaxZ();
 
-	public double getMinZ();
+    public double getMinX();
 
-	public int getPixelsPerBlock();
+    public double getMinZ();
 
-	public int getRegionZoomLevel();
+    public int getPixelsPerBlock();
 
-	public boolean getUndergroundMode();
+    public int getRegionZoomLevel();
 
-	public double getWidth();
+    public boolean getUndergroundMode();
 
-	public double getX();
+    public void setUndergroundMode(boolean enabled);
 
-	public double getZ();
+    public double getWidth();
 
-	public int getZoomLevel();
+    public double getX();
 
-	public boolean isBlockWithinView(double bX, double bZ, boolean circular);
+    public double getZ();
 
-	public void nextDimension(List<Integer> dimensionList, int n);
+    public int getZoomLevel();
 
-	public void panView(double relX, double relZ);
+    public boolean isBlockWithinView(double bX, double bZ, boolean circular);
 
-	public void setDimension(int dimension);
+    public void nextDimension(List<Integer> dimensionList, int n);
 
-	public void setDimensionAndAdjustZoom(int dimension);
+    public void panView(double relX, double relZ);
 
-	public void setMapWH(IMapMode mapMode);
+    public void setDimensionAndAdjustZoom(int dimension);
 
-	public void setMapWH(int w, int h);
+    public void setMapWH(IMapMode mapMode);
 
-	public void setTextureSize(int n);
+    public void setMapWH(int w, int h);
 
-	public void setUndergroundMode(boolean enabled);
+    public void setTextureSize(int n);
 
-	public void setViewCentre(double vX, double vZ);
+    public void setViewCentre(double vX, double vZ);
 
-	public void setViewCentreScaled(double vX, double vZ, int playerDimension);
+    public void setViewCentreScaled(double vX, double vZ, int playerDimension);
 
-	public int setZoomLevel(int zoomLevel);
+    public int setZoomLevel(int zoomLevel);
 
-	// bX and bZ are the coordinates of the block the zoom is centred on.
-	// The relative position of the block in the view will remain the same
-	// as before the zoom.
-	public void zoomToPoint(int newZoomLevel, double bX, double bZ);
+    // bX and bZ are the coordinates of the block the zoom is centred on.
+    // The relative position of the block in the view will remain the same
+    // as before the zoom.
+    public void zoomToPoint(int newZoomLevel, double bX, double bZ);
 }

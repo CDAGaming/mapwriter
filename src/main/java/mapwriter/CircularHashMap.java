@@ -1,232 +1,190 @@
 package mapwriter;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public class CircularHashMap<K, V>
-{
-	/*
-	 * A hash map where each node is linked to the previous and next nodes in
-	 * the order of insertion.
-	 *
-	 * The 'head' node is the most recently added node. Its next pointer links
-	 * to the first node added, forming a circle.
-	 *
-	 * The getNextEntry and getPrevEntry methods use an internal pointer to the
-	 * 'current' node, and return either the current nodes 'next' or 'prev' node
-	 * respectively. The current node becomes the node that was returned, such
-	 * that repeated calls traverse all nodes in the map.
-	 *
-	 * Most methods are similar to those in the java.util.Map interface. The
-	 * CircularHashMap class does not implement Map however as some of the
-	 * required methods seemed unnecessary.
-	 */
+public class CircularHashMap<K, V> {
+    /*
+     * A hash map where each node is linked to the previous and next nodes in
+     * the order of insertion.
+     *
+     * The 'head' node is the most recently added node. Its next pointer links
+     * to the first node added, forming a circle.
+     *
+     * The getNextEntry and getPrevEntry methods use an internal pointer to the
+     * 'current' node, and return either the current nodes 'next' or 'prev' node
+     * respectively. The current node becomes the node that was returned, such
+     * that repeated calls traverse all nodes in the map.
+     *
+     * Most methods are similar to those in the java.util.Map interface. The
+     * CircularHashMap class does not implement Map however as some of the
+     * required methods seemed unnecessary.
+     */
 
-	public class Node implements Map.Entry<K, V>
-	{
-		private final K key;
-		private V value;
-		private Node next;
-		private Node prev;
+    private Map<K, Node> nodeMap = new HashMap<K, Node>();
+    private Node headNode = null;
+    private Node currentNode = null;
 
-		Node(K key, V value)
-		{
-			this.key = key;
-			this.value = value;
-			this.next = this;
-			this.prev = this;
-		}
+    public void clear() {
+        for (Node node : this.nodeMap.values()) {
+            node.next = null;
+            node.prev = null;
+        }
+        this.nodeMap.clear();
+        this.headNode = null;
+        this.currentNode = null;
+    }
 
-		@Override
-		public K getKey()
-		{
-			return this.key;
-		}
+    public boolean containsKey(Object key) {
+        return this.nodeMap.containsKey(key);
+    }
 
-		@Override
-		public V getValue()
-		{
-			return this.value;
-		}
+    public Collection<Map.Entry<K, V>> entrySet() {
+        return new ArrayList<Map.Entry<K, V>>(this.nodeMap.values());
+    }
 
-		@Override
-		public V setValue(V value)
-		{
-			V oldValue = this.value;
-			this.value = value;
-			return oldValue;
-		}
-	}
+    public V get(Object key) {
+        Node node = this.nodeMap.get(key);
+        return node != null ? node.value : null;
+    }
 
-	private Map<K, Node> nodeMap = new HashMap<K, Node>();
-	private Node headNode = null;
+    public Map.Entry<K, V> getNextEntry() {
+        if (this.currentNode != null) {
+            this.currentNode = this.currentNode.next;
+        }
+        return this.currentNode;
+    }
 
-	private Node currentNode = null;
+    public Map.Entry<K, V> getPrevEntry() {
+        if (this.currentNode != null) {
+            this.currentNode = this.currentNode.prev;
+        }
+        return this.currentNode;
+    }
 
-	public void clear()
-	{
-		for (Node node : this.nodeMap.values())
-		{
-			node.next = null;
-			node.prev = null;
-		}
-		this.nodeMap.clear();
-		this.headNode = null;
-		this.currentNode = null;
-	}
+    public boolean isEmpty() {
+        return this.nodeMap.isEmpty();
+    }
 
-	public boolean containsKey(Object key)
-	{
-		return this.nodeMap.containsKey(key);
-	}
+    public Set<K> keySet() {
+        return this.nodeMap.keySet();
+    }
 
-	public Collection<Map.Entry<K, V>> entrySet()
-	{
-		return new ArrayList<Map.Entry<K, V>>(this.nodeMap.values());
-	}
+    public V put(K key, V value) {
+        Node node = this.nodeMap.get(key);
+        if (node == null) {
+            // add new node
+            node = new Node(key, value);
+            this.nodeMap.put(key, node);
 
-	public V get(Object key)
-	{
-		Node node = this.nodeMap.get(key);
-		return node != null ? node.value : null;
-	}
+            if (this.headNode == null) {
+                node.next = node;
+                node.prev = node;
 
-	public Map.Entry<K, V> getNextEntry()
-	{
-		if (this.currentNode != null)
-		{
-			this.currentNode = this.currentNode.next;
-		}
-		return this.currentNode;
-	}
+            } else {
+                node.next = this.headNode.next;
+                node.prev = this.headNode;
 
-	public Map.Entry<K, V> getPrevEntry()
-	{
-		if (this.currentNode != null)
-		{
-			this.currentNode = this.currentNode.prev;
-		}
-		return this.currentNode;
-	}
+                this.headNode.next.prev = node;
+                this.headNode.next = node;
+            }
 
-	public boolean isEmpty()
-	{
-		return this.nodeMap.isEmpty();
-	}
+            if (this.currentNode == null) {
+                this.currentNode = node;
+            }
 
-	public Set<K> keySet()
-	{
-		return this.nodeMap.keySet();
-	}
+            this.headNode = node;
 
-	public V put(K key, V value)
-	{
-		Node node = this.nodeMap.get(key);
-		if (node == null)
-		{
-			// add new node
-			node = new Node(key, value);
-			this.nodeMap.put(key, node);
+        } else {
+            // update node
+            node.value = value;
+        }
+        return value;
+    }
 
-			if (this.headNode == null)
-			{
-				node.next = node;
-				node.prev = node;
+    public V remove(Object key) {
+        Node node = this.nodeMap.get(key);
+        V value = null;
+        if (node != null) {
+            if (this.headNode == node) {
+                this.headNode = node.next;
+                if (this.headNode == node) {
+                    this.headNode = null;
+                }
+            }
+            if (this.currentNode == node) {
+                this.currentNode = node.next;
+                if (this.currentNode == node) {
+                    this.currentNode = null;
+                }
+            }
 
-			}
-			else
-			{
-				node.next = this.headNode.next;
-				node.prev = this.headNode;
+            node.prev.next = node.next;
+            node.next.prev = node.prev;
+            node.next = null;
+            node.prev = null;
+            value = node.value;
 
-				this.headNode.next.prev = node;
-				this.headNode.next = node;
-			}
+            this.nodeMap.remove(key);
+        }
+        return value;
+    }
 
-			if (this.currentNode == null)
-			{
-				this.currentNode = node;
-			}
+    public void rewind() {
+        this.currentNode = this.headNode != null ? this.headNode.next : null;
+    }
 
-			this.headNode = node;
+    //
+    // interface to traverse circular nodes
+    //
 
-		}
-		else
-		{
-			// update node
-			node.value = value;
-		}
-		return value;
-	}
+    public boolean setPosition(K key) {
+        Node node = this.nodeMap.get(key);
+        if (node != null) {
+            this.currentNode = node;
+        }
+        return node != null;
+    }
 
-	public V remove(Object key)
-	{
-		Node node = this.nodeMap.get(key);
-		V value = null;
-		if (node != null)
-		{
-			if (this.headNode == node)
-			{
-				this.headNode = node.next;
-				if (this.headNode == node)
-				{
-					this.headNode = null;
-				}
-			}
-			if (this.currentNode == node)
-			{
-				this.currentNode = node.next;
-				if (this.currentNode == node)
-				{
-					this.currentNode = null;
-				}
-			}
+    public int size() {
+        return this.nodeMap.size();
+    }
 
-			node.prev.next = node.next;
-			node.next.prev = node.prev;
-			node.next = null;
-			node.prev = null;
-			value = node.value;
+    public Collection<V> values() {
+        Collection<V> list = new ArrayList<V>();
+        for (Node node : this.nodeMap.values()) {
+            list.add(node.value);
+        }
+        return list;
+    }
 
-			this.nodeMap.remove(key);
-		}
-		return value;
-	}
+    public class Node implements Map.Entry<K, V> {
+        private final K key;
+        private V value;
+        private Node next;
+        private Node prev;
 
-	//
-	// interface to traverse circular nodes
-	//
+        Node(K key, V value) {
+            this.key = key;
+            this.value = value;
+            this.next = this;
+            this.prev = this;
+        }
 
-	public void rewind()
-	{
-		this.currentNode = this.headNode != null ? this.headNode.next : null;
-	}
+        @Override
+        public K getKey() {
+            return this.key;
+        }
 
-	public boolean setPosition(K key)
-	{
-		Node node = this.nodeMap.get(key);
-		if (node != null)
-		{
-			this.currentNode = node;
-		}
-		return node != null;
-	}
+        @Override
+        public V getValue() {
+            return this.value;
+        }
 
-	public int size()
-	{
-		return this.nodeMap.size();
-	}
-
-	public Collection<V> values()
-	{
-		Collection<V> list = new ArrayList<V>();
-		for (Node node : this.nodeMap.values())
-		{
-			list.add(node.value);
-		}
-		return list;
-	}
+        @Override
+        public V setValue(V value) {
+            V oldValue = this.value;
+            this.value = value;
+            return oldValue;
+        }
+    }
 }

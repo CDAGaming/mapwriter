@@ -1,177 +1,148 @@
 package mapwriter.gui;
 
-import java.io.IOException;
-
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import org.lwjgl.input.Keyboard;
 
-public class MwGuiTextDialog extends GuiScreen
-{
+import java.io.IOException;
 
-	static final int textDialogWidthPercent = 50;
+public class MwGuiTextDialog extends GuiScreen {
 
-	static final int textDialogTitleY = 80;
-	static final int textDialogY = 92;
-	static final int textDialogErrorY = 108;
-	private final GuiScreen parentScreen;
-	String title;
-	String text;
-	String error;
-	GuiTextField textField = null;
-	boolean inputValid = false;
-	boolean showError = false;
-	boolean backToGameOnSubmit = false;
+    static final int textDialogWidthPercent = 50;
 
-	public MwGuiTextDialog(GuiScreen parentScreen, String title, String text, String error)
-	{
-		this.parentScreen = parentScreen;
-		this.title = title;
-		this.text = text;
-		this.error = error;
-	}
+    static final int textDialogTitleY = 80;
+    static final int textDialogY = 92;
+    static final int textDialogErrorY = 108;
+    private final GuiScreen parentScreen;
+    String title;
+    String text;
+    String error;
+    GuiTextField textField = null;
+    boolean inputValid = false;
+    boolean showError = false;
+    boolean backToGameOnSubmit = false;
 
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float f)
-	{
+    public MwGuiTextDialog(GuiScreen parentScreen, String title, String text, String error) {
+        this.parentScreen = parentScreen;
+        this.title = title;
+        this.text = text;
+        this.error = error;
+    }
 
-		if (this.parentScreen != null)
-		{
-			this.parentScreen.drawScreen(mouseX, mouseY, f);
-		}
-		else
-		{
-			this.drawDefaultBackground();
-		}
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float f) {
 
-		int w = this.width * MwGuiTextDialog.textDialogWidthPercent / 100;
-		drawRect((this.width - w) / 2, MwGuiTextDialog.textDialogTitleY -
-										4, (this.width - w) / 2 + w, MwGuiTextDialog.textDialogErrorY + 14, 0x80000000);
-		this.drawCenteredString(this.fontRenderer, this.title, this.width /
-																2, MwGuiTextDialog.textDialogTitleY, 0xffffff);
-		this.textField.drawTextBox();
-		if (this.showError)
-		{
-			this.drawCenteredString(this.fontRenderer, this.error, this.width /
-																	2, MwGuiTextDialog.textDialogErrorY, 0xffffff);
-		}
+        if (this.parentScreen != null) {
+            this.parentScreen.drawScreen(mouseX, mouseY, f);
+        } else {
+            this.drawDefaultBackground();
+        }
 
-		super.drawScreen(mouseX, mouseY, f);
-	}
+        int w = this.width * MwGuiTextDialog.textDialogWidthPercent / 100;
+        drawRect((this.width - w) / 2, MwGuiTextDialog.textDialogTitleY -
+                4, (this.width - w) / 2 + w, MwGuiTextDialog.textDialogErrorY + 14, 0x80000000);
+        this.drawCenteredString(this.fontRenderer, this.title, this.width /
+                2, MwGuiTextDialog.textDialogTitleY, 0xffffff);
+        this.textField.drawTextBox();
+        if (this.showError) {
+            this.drawCenteredString(this.fontRenderer, this.error, this.width /
+                    2, MwGuiTextDialog.textDialogErrorY, 0xffffff);
+        }
 
-	public int getInputAsHexInt()
-	{
-		String s = this.getInputAsString();
-		int value = 0;
-		try
-		{
-			value = Integer.parseInt(s, 16);
-			this.inputValid = true;
-			this.showError = false;
-		}
-		catch (NumberFormatException e)
-		{
-			this.inputValid = false;
-			this.showError = true;
-		}
-		return value;
-	}
+        super.drawScreen(mouseX, mouseY, f);
+    }
 
-	public int getInputAsInt()
-	{
-		String s = this.getInputAsString();
-		int value = 0;
-		try
-		{
-			value = Integer.parseInt(s);
-			this.inputValid = true;
-			this.showError = false;
-		}
-		catch (NumberFormatException e)
-		{
-			this.inputValid = false;
-			this.showError = true;
-		}
-		return value;
-	}
+    public int getInputAsHexInt() {
+        String s = this.getInputAsString();
+        int value = 0;
+        try {
+            value = Integer.parseInt(s, 16);
+            this.inputValid = true;
+            this.showError = false;
+        } catch (NumberFormatException e) {
+            this.inputValid = false;
+            this.showError = true;
+        }
+        return value;
+    }
 
-	public String getInputAsString()
-	{
-		String s = this.textField.getText().trim();
-		this.inputValid = s.length() > 0;
-		this.showError = !this.inputValid;
-		return s;
-	}
+    public int getInputAsInt() {
+        String s = this.getInputAsString();
+        int value = 0;
+        try {
+            value = Integer.parseInt(s);
+            this.inputValid = true;
+            this.showError = false;
+        } catch (NumberFormatException e) {
+            this.inputValid = false;
+            this.showError = true;
+        }
+        return value;
+    }
 
-	@Override
-	public void initGui()
-	{
-		this.newTextField();
-	}
+    public String getInputAsString() {
+        String s = this.textField.getText().trim();
+        this.inputValid = s.length() > 0;
+        this.showError = !this.inputValid;
+        return s;
+    }
 
-	public void setText(String s)
-	{
-		this.textField.setText(s);
-		this.text = s;
-	}
+    @Override
+    public void initGui() {
+        this.newTextField();
+    }
 
-	public boolean submit()
-	{
-		return false;
-	}
+    public void setText(String s) {
+        this.textField.setText(s);
+        this.text = s;
+    }
 
-	private void newTextField()
-	{
-		if (this.textField != null)
-		{
-			this.text = this.textField.getText();
-		}
-		int w = this.width * MwGuiTextDialog.textDialogWidthPercent / 100;
-		this.textField = new GuiTextField(0, this.fontRenderer, (this.width - w) / 2 +
-																5, MwGuiTextDialog.textDialogY, w - 10, 12);
-		this.textField.setMaxStringLength(32);
-		this.textField.setFocused(true);
-		this.textField.setCanLoseFocus(false);
-		// this.textField.setEnableBackgroundDrawing(false);
-		this.textField.setText(this.text);
-	}
+    public boolean submit() {
+        return false;
+    }
 
-	@Override
-	protected void keyTyped(char c, int key)
-	{
-		switch (key)
-		{
-			case Keyboard.KEY_ESCAPE:
-				this.mc.displayGuiScreen(this.parentScreen);
-				break;
+    private void newTextField() {
+        if (this.textField != null) {
+            this.text = this.textField.getText();
+        }
+        int w = this.width * MwGuiTextDialog.textDialogWidthPercent / 100;
+        this.textField = new GuiTextField(0, this.fontRenderer, (this.width - w) / 2 +
+                5, MwGuiTextDialog.textDialogY, w - 10, 12);
+        this.textField.setMaxStringLength(32);
+        this.textField.setFocused(true);
+        this.textField.setCanLoseFocus(false);
+        // this.textField.setEnableBackgroundDrawing(false);
+        this.textField.setText(this.text);
+    }
 
-			case Keyboard.KEY_RETURN:
-				// when enter pressed, submit current input
-				if (this.submit())
-				{
-					if (!this.backToGameOnSubmit)
-					{
-						this.mc.displayGuiScreen(this.parentScreen);
-					}
-					else
-					{
-						this.mc.displayGuiScreen(null);
-					}
-				}
-				break;
+    @Override
+    protected void keyTyped(char c, int key) {
+        switch (key) {
+            case Keyboard.KEY_ESCAPE:
+                this.mc.displayGuiScreen(this.parentScreen);
+                break;
 
-			default:
-				// other characters are processed by the text box
-				this.textField.textboxKeyTyped(c, key);
-				this.text = this.textField.getText();
-				break;
-		}
-	}
+            case Keyboard.KEY_RETURN:
+                // when enter pressed, submit current input
+                if (this.submit()) {
+                    if (!this.backToGameOnSubmit) {
+                        this.mc.displayGuiScreen(this.parentScreen);
+                    } else {
+                        this.mc.displayGuiScreen(null);
+                    }
+                }
+                break;
 
-	@Override
-	protected void mouseClicked(int x, int y, int button) throws IOException
-	{
-		super.mouseClicked(x, y, button);
-	}
+            default:
+                // other characters are processed by the text box
+                this.textField.textboxKeyTyped(c, key);
+                this.text = this.textField.getText();
+                break;
+        }
+    }
+
+    @Override
+    protected void mouseClicked(int x, int y, int button) throws IOException {
+        super.mouseClicked(x, y, button);
+    }
 }
