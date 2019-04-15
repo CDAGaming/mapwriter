@@ -1,9 +1,9 @@
 package mapwriter.api;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface IMwDataProvider {
-    ArrayList<IMwChunkOverlay> getChunksOverlay(int dim, double centerX, double centerZ, double minX, double minZ, double maxX, double maxZ);
+    List<IMwChunkOverlay> getChunksOverlay(int dim, double centerX, double centerZ, double minX, double minZ, double maxX, double maxZ);
 
     // return null if nothing should be drawn on fullscreen map
     ILabelInfo getLabelInfo(int mouseX, int mouseY);

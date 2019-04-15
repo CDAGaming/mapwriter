@@ -1,15 +1,16 @@
 package mapwriter.api;
 
 import com.google.common.collect.HashBiMap;
+import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class MwAPI {
 
     private static HashBiMap<String, IMwDataProvider> dataProviders = HashBiMap.create();
     private static IMwDataProvider currentProvider = null;
-    private static ArrayList<String> providerKeys = new ArrayList<String>();
+    private static List<String> providerKeys = Lists.newArrayList();
 
     public static IMwDataProvider getCurrentDataProvider() {
         return currentProvider;
