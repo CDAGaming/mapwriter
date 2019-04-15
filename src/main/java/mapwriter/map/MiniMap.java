@@ -1,10 +1,10 @@
 package mapwriter.map;
 
+import com.google.common.collect.Lists;
 import mapwriter.Mw;
 import mapwriter.config.Config;
 import mapwriter.map.mapmode.MapMode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MiniMap {
@@ -33,7 +33,7 @@ public class MiniMap {
         this.largeMapMode = new MapMode(Config.largeMap);
         this.largeMap = new MapRenderer(mw, this.largeMapMode, this.view);
 
-        this.mapList = new ArrayList<MapRenderer>();
+        this.mapList = Lists.newArrayList();
 
         // add small, large and underground map modes if they
         // are enabled.

@@ -1,5 +1,6 @@
 package mapwriter.map;
 
+import com.google.common.collect.Lists;
 import mapwriter.config.Config;
 import mapwriter.config.WorldConfig;
 import mapwriter.map.mapmode.MapMode;
@@ -18,15 +19,14 @@ import net.minecraftforge.common.config.Configuration;
 import org.lwjgl.opengl.ARBDepthClamp;
 import org.lwjgl.opengl.GL11;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MarkerManager {
 
-    public List<Marker> markerList = new ArrayList<Marker>();
-    public List<String> groupList = new ArrayList<String>();
+    public List<Marker> markerList = Lists.newArrayList();
+    public List<String> groupList = Lists.newArrayList();
 
-    public List<Marker> visibleMarkerList = new ArrayList<Marker>();
+    public List<Marker> visibleMarkerList = Lists.newArrayList();
     public Marker selectedMarker = null;
     private String visibleGroupName = "none";
 

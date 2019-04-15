@@ -24,7 +24,6 @@ public class smallMapModeConfig extends largeMapModeConfig {
         this.borderModeDef = true;
         this.playerArrowSizeDef = 4;
         this.markerSizeDef = 3;
-        this.heightPercentDef = 30;
         this.xPosDef = 97.5;
         this.yPosDef = 5;
         this.heightPercentDef = 30;

@@ -1,5 +1,6 @@
 package mapwriter.map;
 
+import com.google.common.collect.Lists;
 import mapwriter.BackgroundExecutor;
 import mapwriter.region.Region;
 import mapwriter.region.RegionManager;
@@ -7,7 +8,6 @@ import mapwriter.tasks.MapUpdateViewTask;
 import mapwriter.util.Texture;
 import org.lwjgl.opengl.GL11;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MapTexture extends Texture {
@@ -21,7 +21,7 @@ public class MapTexture extends Texture {
     // accessed from both render and background thread.
     // make sure all methods using it are synchronized.
     // private int[] regionModifiedArray;
-    private List<Rect> textureUpdateQueue = new ArrayList<Rect>();
+    private final List<Rect> textureUpdateQueue = Lists.newArrayList();
 
     public MapTexture(int textureSize, boolean linearScaling) {
         super(textureSize, textureSize, 0x00000000, GL11.GL_LINEAR, GL11.GL_LINEAR, GL11.GL_REPEAT);

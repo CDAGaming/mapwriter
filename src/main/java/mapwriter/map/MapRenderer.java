@@ -12,7 +12,7 @@ import mapwriter.util.Render;
 import net.minecraft.client.renderer.GlStateManager;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 
 public class MapRenderer {
     // accessed by the MwGui to check whether the mouse cursor is near the
@@ -119,7 +119,7 @@ public class MapRenderer {
 
         GlStateManager.pushMatrix();
 
-        if (this.mapMode.getConfig().rotate && this.mapMode.getConfig().circular == true) {
+        if (this.mapMode.getConfig().rotate && this.mapMode.getConfig().circular) {
             GlStateManager.rotate(0.0f, 0.0f, 0.0f, 1.0f);
         }
         if (this.mapMode.getConfig().circular) {
@@ -144,7 +144,7 @@ public class MapRenderer {
 
         GlStateManager.pushMatrix();
 
-        if (this.mapMode.getConfig().rotate && this.mapMode.getConfig().circular == true) {
+        if (this.mapMode.getConfig().rotate && this.mapMode.getConfig().circular) {
             GlStateManager.rotate(0.0f, 0.0f, 0.0f, 1.0f);
         }
         // draw north arrow
@@ -234,7 +234,7 @@ public class MapRenderer {
     private void drawIcons() {
         GlStateManager.pushMatrix();
 
-        if (this.mapMode.getConfig().rotate && this.mapMode.getConfig().circular == true) {
+        if (this.mapMode.getConfig().rotate && this.mapMode.getConfig().circular) {
             GlStateManager.rotate(this.mw.mapRotationDegrees, 0.0f, 0.0f, 1.0f);
         }
 
@@ -289,7 +289,7 @@ public class MapRenderer {
         }
         GlStateManager.pushMatrix();
 
-        if (this.mapMode.getConfig().rotate && this.mapMode.getConfig().circular == true) {
+        if (this.mapMode.getConfig().rotate && this.mapMode.getConfig().circular) {
             GlStateManager.rotate(this.mw.mapRotationDegrees, 0.0f, 0.0f, 1.0f);
         }
         if (this.mapMode.getConfig().circular) {
@@ -356,7 +356,7 @@ public class MapRenderer {
         // for (IMwDataProvider provider : MwAPI.getDataProviders())
         IMwDataProvider provider = MwAPI.getCurrentDataProvider();
         if (provider != null) {
-            ArrayList<IMwChunkOverlay> overlays = provider.getChunksOverlay(this.mapView.getDimension(), this.mapView.getX(), this.mapView.getZ(), this.mapView.getMinX(), this.mapView.getMinZ(), this.mapView.getMaxX(), this.mapView.getMaxZ());
+            List<IMwChunkOverlay> overlays = provider.getChunksOverlay(this.mapView.getDimension(), this.mapView.getX(), this.mapView.getZ(), this.mapView.getMinX(), this.mapView.getMinZ(), this.mapView.getMaxX(), this.mapView.getMaxZ());
             if (overlays != null) {
                 for (IMwChunkOverlay overlay : overlays) {
                     paintChunk(this.mapMode, this.mapView, overlay);
@@ -376,7 +376,7 @@ public class MapRenderer {
 
         // the arrow only needs to be rotated if the map is NOT rotated
         GlStateManager.translate(p.x, p.y, 0.0);
-        if (!this.mapMode.getConfig().rotate || this.mapMode.getConfig().circular == false) {
+        if (!this.mapMode.getConfig().rotate || !this.mapMode.getConfig().circular) {
             GlStateManager.rotate(-this.mw.mapRotationDegrees, 0.0f, 0.0f, 1.0f);
         }
 

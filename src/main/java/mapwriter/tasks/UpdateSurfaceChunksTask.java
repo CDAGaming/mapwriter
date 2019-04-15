@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class UpdateSurfaceChunksTask extends Task {
-    private static Map chunksUpdating = new HashMap<Long, UpdateSurfaceChunksTask>();
+    private static Map<Long, UpdateSurfaceChunksTask> chunksUpdating = new HashMap<Long, UpdateSurfaceChunksTask>();
     private MwChunk chunk;
     private RegionManager regionManager;
     private MapTexture mapTexture;
@@ -31,8 +31,8 @@ public class UpdateSurfaceChunksTask extends Task {
             UpdateSurfaceChunksTask.chunksUpdating.put(coords, this);
             return false;
         } else {
-            UpdateSurfaceChunksTask task2 = (UpdateSurfaceChunksTask) UpdateSurfaceChunksTask.chunksUpdating.get(coords);
-            if (task2.Running.get() == false) {
+            UpdateSurfaceChunksTask task2 = UpdateSurfaceChunksTask.chunksUpdating.get(coords);
+            if (!task2.Running.get()) {
                 task2.UpdateChunkData(this.chunk);
             } else {
                 UpdateSurfaceChunksTask.chunksUpdating.put(coords, this);

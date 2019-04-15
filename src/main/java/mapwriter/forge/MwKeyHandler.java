@@ -1,5 +1,6 @@
 package mapwriter.forge;
 
+import com.google.common.collect.Lists;
 import mapwriter.Mw;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -7,7 +8,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class MwKeyHandler {
     public static KeyBinding keyMapGui = new KeyBinding("key.mw_open_gui", Keyboard.KEY_M, "Mapwriter");
@@ -31,7 +32,7 @@ public class MwKeyHandler {
     };
 
     public MwKeyHandler() {
-        ArrayList<String> listKeyDescs = new ArrayList<String>();
+        List<String> listKeyDescs = Lists.newArrayList();
         // Register bindings
         for (KeyBinding key : this.keys) {
             if (key != null) {

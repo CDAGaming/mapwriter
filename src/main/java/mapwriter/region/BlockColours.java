@@ -89,7 +89,8 @@ public class BlockColours {
             if (fout != null) {
                 try {
                     fout.close();
-                } catch (IOException e) {
+                } catch (IOException ignored) {
+                    // Ignore Exception
                 }
             }
         }
@@ -108,9 +109,7 @@ public class BlockColours {
                 // fix crash when mods don't implement getRenderColor for all
                 // block meta values.
                 try {
-                    @SuppressWarnings("deprecation")
-                    int renderColour = block.getMapColor(block.getStateFromMeta(Integer.parseInt(meta) &
-                            0xf), null, null).colorValue;
+                    int renderColour = block.getDefaultState().getMapColor(null, null).colorValue;
                     if (renderColour != 0xffffff) {
                         blockColour = Render.multiplyColours(blockColour, 0xff000000 | renderColour);
                     }
@@ -125,7 +124,7 @@ public class BlockColours {
                 break;
             case GRASS:
                 // the icon returns the dirt texture so hardcode it to the grey
-                // undertexture.
+                // under texture.
                 blockColour = 0xff9b9b9b;
             default:
                 break;
@@ -159,7 +158,7 @@ public class BlockColours {
     }
 
     private static BlockType getBlockTypeFromString(String typeString) {
-        BlockType blockType = BlockType.NORMAL;
+        BlockType blockType = null;
         if (typeString.equalsIgnoreCase("normal")) {
             blockType = BlockType.NORMAL;
         } else if (typeString.equalsIgnoreCase("grass")) {
@@ -174,6 +173,7 @@ public class BlockColours {
             blockType = BlockType.OPAQUE;
         } else {
             Logging.logWarning("unknown block type '%s'", typeString);
+            blockType = BlockType.NORMAL;
         }
         return blockType;
     }
@@ -245,11 +245,8 @@ public class BlockColours {
             System.err.println(ex.getMessage());
         }
 
-        if (lineData.equals(String.format("version: %s", Reference.VERSION))) {
-            return true;
-        }
+        return lineData.equals(String.format("version: %s", Reference.VERSION));
 
-        return false;
     }
 
     public String CombineBlockMeta(String BlockName, int meta) {
@@ -366,7 +363,7 @@ public class BlockColours {
                     } else if (lineSplit[0].equals("blocktype") && lineSplit.length == 4) {
                         this.loadBlockTypeLine(lineSplit);
                     } else if (lineSplit[0].equals("version:")) {
-
+                        // Ignored
                     } else {
                         Logging.logWarning("invalid map colour line '%s'", line);
                     }
@@ -467,7 +464,8 @@ public class BlockColours {
             if (fout != null) {
                 try {
                     fout.close();
-                } catch (IOException e) {
+                } catch (IOException ignored) {
+                    // Ignore Exception
                 }
             }
         }

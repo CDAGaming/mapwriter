@@ -1,19 +1,19 @@
 package mapwriter.config;
 
+import com.google.common.collect.Lists;
 import mapwriter.Mw;
 import mapwriter.util.Reference;
 import mapwriter.util.Utils;
 import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class WorldConfig {
     private static WorldConfig instance = null;
     public Configuration worldConfiguration = null;
     // list of available dimensions
-    public List<Integer> dimensionList = new ArrayList<Integer>();
+    public List<Integer> dimensionList = Lists.newArrayList();
 
     private WorldConfig() {
         // load world specific config file
@@ -43,7 +43,7 @@ public class WorldConfig {
     }
 
     public void cleanDimensionList() {
-        List<Integer> dimensionListCopy = new ArrayList<Integer>(this.dimensionList);
+        List<Integer> dimensionListCopy = Lists.newArrayList(this.dimensionList);
         this.dimensionList.clear();
         for (int dimension : dimensionListCopy) {
             this.addDimension(dimension);

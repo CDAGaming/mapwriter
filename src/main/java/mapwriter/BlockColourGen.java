@@ -53,18 +53,17 @@ public class BlockColourGen {
         int b_count = 0;
         int s_count = 0;
 
-        for (Object oblock : Block.REGISTRY) {
-            Block block = (Block) oblock;
+        for (Block block : Block.REGISTRY) {
             int blockID = Block.getIdFromBlock(block);
 
             for (int dv = 0; dv < 16; dv++) {
                 int blockColour = 0;
 
-                if (block != null && block.getRenderType(block.getDefaultState()) != EnumBlockRenderType.INVISIBLE) {
+                if (block != null && block.getDefaultState().getRenderType() != EnumBlockRenderType.INVISIBLE) {
 
                     TextureAtlasSprite icon = null;
                     try {
-                        icon = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getTexture(block.getStateFromMeta(dv));
+                        icon = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getTexture(block.getDefaultState());
                     } catch (Exception e) {
                         // MwUtil.log("genFromTextures: exception caught when
                         // requesting block texture for %03x:%x",

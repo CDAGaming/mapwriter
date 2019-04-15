@@ -16,8 +16,8 @@ public class MapMode implements IMapMode {
     // calculated before every frame drawn by updateMapDimensions
     private int xTranslation = 0;
     private int yTranslation = 0;
-    private int x = -25; // x cordinate in the middle of the map
-    private int y = -25; // y cordinate in the middle of the map
+    private int x = -25; // x coordinate in the middle of the map
+    private int y = -25; // y coordinate in the middle of the map
     private int w = 50;
     private int h = 50;
     private int wPixels = 50;

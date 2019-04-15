@@ -99,9 +99,8 @@ public class Utils {
     public static <K, V> Map<K, V> checkedMapByCopy(Map rawMap, Class<K> keyType, Class<V> valueType, boolean strict)
             throws ClassCastException {
         Map<K, V> m2 = new HashMap<K, V>(rawMap.size() * 4 / 3 + 1);
-        Iterator it = rawMap.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry e = (Map.Entry) it.next();
+        for (Object o : rawMap.entrySet()) {
+            Map.Entry e = (Map.Entry) o;
             try {
                 m2.put(keyType.cast(e.getKey()), valueType.cast(e.getValue()));
             } catch (ClassCastException x) {
@@ -200,7 +199,7 @@ public class Utils {
             IntegratedServer server = Minecraft.getMinecraft().getIntegratedServer();
             worldName = server != null ? server.getFolderName() : "sp_world";
         } else if (Minecraft.getMinecraft().isConnectedToRealms()) {
-            if (Utils.RealmsWorldName != "") {
+            if (!Utils.RealmsWorldName.equals("")) {
                 worldName = Utils.RealmsWorldName;
             } else {
                 worldName = "Realms";
@@ -210,7 +209,7 @@ public class Utils {
             if (!Config.portNumberInWorldNameEnabled) {
                 worldName = worldName.substring(0, worldName.indexOf(":"));
             } else {
-                if (worldName.indexOf(":") == -1) {// standard port is missing. Adding it
+                if (!worldName.contains(":")) {// standard port is missing. Adding it
                     worldName += "_25565";
                 } else {
                     worldName = worldName.replace(":", "_");
@@ -226,7 +225,7 @@ public class Utils {
 
         // if something went wrong make sure the name is not blank
         // (causes crash on start up due to empty configuration section)
-        if (worldName == "") {
+        if (worldName.equals("")) {
             worldName = "default";
         }
         return worldName;

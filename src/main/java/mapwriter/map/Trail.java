@@ -1,5 +1,6 @@
 package mapwriter.map;
 
+import com.google.common.collect.Lists;
 import mapwriter.Mw;
 import mapwriter.config.ConfigurationHandler;
 import mapwriter.map.mapmode.MapMode;
@@ -11,7 +12,7 @@ import java.util.LinkedList;
 
 public class Trail {
 
-    public LinkedList<TrailMarker> trailMarkerList = new LinkedList<TrailMarker>();
+    public LinkedList<TrailMarker> trailMarkerList = Lists.newLinkedList();
     public int maxLength = 30;
     public String name;
     public boolean enabled;

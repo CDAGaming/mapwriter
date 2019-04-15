@@ -37,8 +37,10 @@ public class VersionCheck implements Runnable {
         InputStream in = null;
         try {
             in = new URL(Reference.VersionURL).openStream();
-        } catch (MalformedURLException e) {
-        } catch (IOException e) {
+        } catch (MalformedURLException ignored) {
+            // Ignore Exception
+        } catch (IOException ignored) {
+            // Ignore Exception
         }
 
         try {
@@ -64,7 +66,8 @@ public class VersionCheck implements Runnable {
             VersionCheck.updateURL = updateURL;
 
             isLatestVersion = Reference.VERSION.equals(version);
-        } catch (IOException e) {
+        } catch (IOException ignored) {
+            // Ignore Exception
         }
 
     }

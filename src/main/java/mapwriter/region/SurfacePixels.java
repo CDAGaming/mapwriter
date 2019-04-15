@@ -39,7 +39,7 @@ public class SurfacePixels {
     }
 
     public static int[] loadImage(File filename, int w, int h) {
-        BufferedImage img = null;
+        BufferedImage img;
         try {
             img = ImageIO.read(filename);
         } catch (IOException e) {

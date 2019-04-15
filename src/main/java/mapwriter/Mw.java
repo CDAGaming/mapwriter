@@ -296,7 +296,7 @@ public class Mw {
                 this.mc.player.sendMessage(
                         new TextComponentTranslation(
                                 "mw.msg.groupselected",
-                                new Object[]{this.markerManager.getVisibleGroupName()}));
+                                this.markerManager.getVisibleGroupName()));
 
             } else if (kb == MwKeyHandler.keyTeleport) {
                 // set or remove marker
@@ -508,7 +508,7 @@ public class Mw {
         this.mc.player.sendMessage(
                 new TextComponentTranslation(
                         "mw.msg.groupselected",
-                        new Object[]{this.markerManager.getVisibleGroupName()}));
+                        this.markerManager.getVisibleGroupName()));
     }
 
     public void toggleUndergroundMode() {

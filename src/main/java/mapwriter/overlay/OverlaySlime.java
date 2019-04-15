@@ -38,7 +38,7 @@ public class OverlaySlime implements IMwDataProvider {
     public ArrayList<IMwChunkOverlay> getChunksOverlay(int dim, double centerX, double centerZ, double minX, double minZ, double maxX, double maxZ) {
         // We should pass the center of the map too to reduce the display like
         // in this case
-        // and the zoom lvl, to provide higher level informations
+        // and the zoom lvl, to provide higher level information
 
         if (Minecraft.getMinecraft().player.getEntityWorld().provider.getDimensionType().getId() != dim) {
             return new ArrayList<IMwChunkOverlay>();

@@ -167,7 +167,7 @@ public class MwGui extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float f) {
         // check every tick for a change in underground mode.
-        // this makes it posible to change to underground mode in the config
+        // this makes it possible to change to underground mode in the config
         // screen.
         this.mapView.setUndergroundMode(Config.undergroundMode);
 
@@ -520,7 +520,6 @@ public class MwGui extends GuiScreen {
                 this.markerLabel.setText(info.getInfoText(), null);
                 this.markerLabel.setCoords(mouseX + 8, mouseY);
                 this.markerLabel.draw();
-                return;
             }
         }
     }

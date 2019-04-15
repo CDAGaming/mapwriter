@@ -41,7 +41,7 @@ public class Region {
         z = z >> Region.SHIFT + zoomLevel & 0xffff;
         zoomLevel = zoomLevel & 0xff;
         dimension = dimension & 0xff;
-        return Long.valueOf((long) dimension << 40 | (long) zoomLevel << 32 | (long) z << 16 | x);
+        return (long) dimension << 40 | (long) zoomLevel << 32 | (long) z << 16 | x;
     }
 
     private static File addDimensionDirToPath(File dir, int dimension) {

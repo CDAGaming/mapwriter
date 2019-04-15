@@ -20,7 +20,7 @@ import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class EventHandler {
     Mw mw;
@@ -102,23 +102,19 @@ public class EventHandler {
                     if (parrent != null) {
                         long id = (Long) FieldUtils.readField(parrent, "selectedServerId", true);
                         if (id > 0) {
-                            ArrayList list = (ArrayList) FieldUtils.readField(parrent, "realmsServers", true);
+                            List list = (List) FieldUtils.readField(parrent, "realmsServers", true);
                             for (Object item : list) {
                                 RealmsServer server = (RealmsServer) item;
                                 String Name = server.getName();
                                 String Owner = server.owner;
-                                StringBuilder builder = new StringBuilder();
-                                builder.append(server.owner);
-                                builder.append("_");
-                                builder.append(server.getName());
-                                Utils.RealmsWorldName = builder.toString();
+                                Utils.RealmsWorldName = Owner + "_" + Name;
                             }
                         }
                     }
 
                 }
-            } catch (IllegalAccessException e) {
-
+            } catch (IllegalAccessException ignored) {
+                // Exception Ignored
             }
         }
     }

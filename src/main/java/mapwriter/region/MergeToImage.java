@@ -85,7 +85,8 @@ public class MergeToImage {
         try {
             ImageIO.write(img, "png", f);
             error = false;
-        } catch (IOException e) {
+        } catch (IOException ignored) {
+            // Ignored Exception
         }
         return error;
     }

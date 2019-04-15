@@ -60,8 +60,8 @@ public class Marker {
         }
         if (o instanceof Marker) {
             Marker m = (Marker) o;
-            return this.name == m.name &&
-                    this.groupName == m.groupName &&
+            return this.name.equals(m.name) &&
+                    this.groupName.equals(m.groupName) &&
                     this.x == m.x &&
                     this.y == m.y &&
                     this.z == m.z &&

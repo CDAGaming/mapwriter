@@ -66,12 +66,12 @@ public class ChunkRender {
                 double c1A = alpha / 255.0;
                 double c1R = (c1 >> 16 & 0xff) / 255.0;
                 double c1G = (c1 >> 8 & 0xff) / 255.0;
-                double c1B = (c1 >> 0 & 0xff) / 255.0;
+                double c1B = (c1 & 0xff) / 255.0;
 
                 // c2A is implicitly 1.0 (opaque)
                 double c2R = (c2 >> 16 & 0xff) / 255.0;
                 double c2G = (c2 >> 8 & 0xff) / 255.0;
-                double c2B = (c2 >> 0 & 0xff) / 255.0;
+                double c2B = (c2 & 0xff) / 255.0;
 
                 // alpha blend and multiply
                 r = r + a * c1A * c1R * c2R;
@@ -221,11 +221,11 @@ public class ChunkRender {
         }
     }
 
-    static int getPixelHeightN(int[] pixels, int offset, int scanSize) {
+    private static int getPixelHeightN(int[] pixels, int offset, int scanSize) {
         return offset >= scanSize ? pixels[offset - scanSize] >> 24 & 0xff : -1;
     }
 
-    static int getPixelHeightW(int[] pixels, int offset, int scanSize) {
+    private static int getPixelHeightW(int[] pixels, int offset, int scanSize) {
         return (offset & scanSize - 1) >= 1 ? pixels[offset - 1] >> 24 & 0xff : -1;
     }
 }

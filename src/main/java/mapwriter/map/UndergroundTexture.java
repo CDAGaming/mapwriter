@@ -152,7 +152,7 @@ public class UndergroundTexture extends Texture {
                     WorldClient world = this.mw.mc.world;
                     IBlockState state = world.getBlockState(new BlockPos(x, y, z));
                     Block block = state.getBlock();
-                    if (block == null || !block.isOpaqueCube(state)) {
+                    if (state == null || block == null || !state.isOpaqueCube() || !block.isOpaqueCube(state)) {
                         // if block is not opaque
                         this.updateFlags[chunkOffset][columnOffset] = ChunkRender.FLAG_NON_OPAQUE;
                         this.processBlock(xi + 1, y, zi);
@@ -168,7 +168,7 @@ public class UndergroundTexture extends Texture {
         }
     }
 
-    void renderToTexture(int y) {
+    private void renderToTexture(int y) {
         this.setPixelBufPosition(0);
         for (int colour : this.pixels) {
             int height = colour >> 24 & 0xff;

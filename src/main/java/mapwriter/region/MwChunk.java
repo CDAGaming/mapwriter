@@ -100,8 +100,7 @@ public class MwChunk implements IChunk {
 
     // load from anvil file
     public static MwChunk read(int x, int z, int dimension, RegionFileCache regionFileCache) {
-        //
-        Boolean flag = true;
+        boolean flag = true;
         byte[] biomeArray = null;
         ExtendedBlockStorage[] data = new ExtendedBlockStorage[16];
         Map<BlockPos, TileEntity> TileEntityMap = new HashMap<BlockPos, TileEntity>();
@@ -303,7 +302,7 @@ public class MwChunk implements IChunk {
     }
 
     // changed to use the NBTTagCompound that minecraft uses. this makes the
-    // local way of saving anvill data the same as Minecraft world data
+    // local way of saving anvil data the same as Minecraft world data
     private NBTTagCompound writeChunkToNBT() {
         NBTTagCompound level = new NBTTagCompound();
         NBTTagCompound compound = new NBTTagCompound();

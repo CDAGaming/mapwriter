@@ -1,19 +1,20 @@
 package mapwriter.overlay;
 
+import com.google.common.collect.Lists;
 import mapwriter.api.*;
 import net.minecraft.util.math.MathHelper;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 
 public class OverlayChecker implements IMwDataProvider {
 
     @Override
-    public ArrayList<IMwChunkOverlay> getChunksOverlay(int dim, double centerX, double centerZ, double minX, double minZ, double maxX, double maxZ) {
+    public List<IMwChunkOverlay> getChunksOverlay(int dim, double centerX, double centerZ, double minX, double minZ, double maxX, double maxZ) {
 
         // We should pass the center of the map too to reduce the display like
         // in this case
-        // and the zoom lvl, to provide higher level informations
+        // and the zoom lvl, to provide higher level information
 
         int minChunkX = (MathHelper.ceil(minX) >> 4) - 1;
         int minChunkZ = (MathHelper.ceil(minZ) >> 4) - 1;
@@ -27,7 +28,7 @@ public class OverlayChecker implements IMwDataProvider {
         int limitMinZ = Math.max(minChunkZ, cZ - 100);
         int limitMaxZ = Math.min(maxChunkZ, cZ + 100);
 
-        ArrayList<IMwChunkOverlay> chunks = new ArrayList<IMwChunkOverlay>();
+        List<IMwChunkOverlay> chunks = Lists.newArrayList();
         for (int x = limitMinX; x <= limitMaxX; x++) {
             for (int z = limitMinZ; z <= limitMaxZ; z++) {
                 if ((x + z) % 2 == 0) {
@@ -35,7 +36,6 @@ public class OverlayChecker implements IMwDataProvider {
                 }
             }
         }
-        ;
 
         return chunks;
     }

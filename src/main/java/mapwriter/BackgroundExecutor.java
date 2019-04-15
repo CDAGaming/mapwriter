@@ -108,7 +108,8 @@ public class BackgroundExecutor {
             if (this.processTaskQueue()) {
                 try {
                     Thread.sleep(delay);
-                } catch (Exception e) {
+                } catch (Exception ignored) {
+                    // Ignore Exception
                 }
                 attempts--;
             }

@@ -1,5 +1,6 @@
 package mapwriter.gui;
 
+import com.google.common.collect.Lists;
 import mapwriter.config.ConfigurationHandler;
 import mapwriter.util.Reference;
 import net.minecraft.client.gui.GuiScreen;
@@ -9,11 +10,10 @@ import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElem
 import net.minecraftforge.fml.client.config.*;
 import net.minecraftforge.fml.client.config.GuiConfigEntries.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ModGuiConfig extends GuiConfig {
-    public ModGuiConfig(GuiScreen guiScreen) {
+    ModGuiConfig(GuiScreen guiScreen) {
         super(guiScreen, getConfigElements(), Reference.MOD_ID, Reference.catOptions, false, false, GuiConfig.getAbridgedConfigPath(ConfigurationHandler.configuration.toString()));
     }
 
@@ -22,7 +22,7 @@ public class ModGuiConfig extends GuiConfig {
      */
     private static List<IConfigElement> getConfigElements() {
         // Add categories to config GUI
-        List<IConfigElement> list = new ArrayList<IConfigElement>();
+        List<IConfigElement> list = Lists.newArrayList();
         list.add(new DummyCategoryElement(Reference.catOptions, "mw.configgui.ctgy.general", new ConfigElement(ConfigurationHandler.configuration.getCategory(Reference.catOptions)).getChildElements()));
 
         list.add(new DummyCategoryElement(Reference.catFullMapConfig, "mw.configgui.ctgy.fullScreenMap", new ConfigElement(ConfigurationHandler.configuration.getCategory(Reference.catFullMapConfig)).getChildElements(), MapModeConfigEntry.class));
@@ -54,8 +54,8 @@ public class ModGuiConfig extends GuiConfig {
     }
 
     public static class ModBooleanEntry extends ButtonEntry {
-        protected final boolean beforeValue;
-        protected boolean currentValue;
+        final boolean beforeValue;
+        boolean currentValue;
 
         public ModBooleanEntry(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
             super(owningScreen, owningEntryList, configElement);

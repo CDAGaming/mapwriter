@@ -32,7 +32,8 @@ public class RegionFile {
         if (this.fin != null) {
             try {
                 this.fin.close();
-            } catch (IOException e) {
+            } catch (IOException ignored) {
+                // Ignore Exception
             }
         }
     }
@@ -245,13 +246,13 @@ public class RegionFile {
         int endSector = section.startSector + section.length;
         int sectorsToAppend = endSector + 1 - this.filledSectorArray.size();
         for (int i = 0; i < sectorsToAppend; i++) {
-            this.filledSectorArray.add(Boolean.valueOf(false));
+            this.filledSectorArray.add(Boolean.FALSE);
         }
         for (int i = section.startSector; i < endSector; i++) {
             if (filled && this.filledSectorArray.get(i)) {
                 Logging.logError("sector %d already filled, possible chunk overlap", i);
             }
-            this.filledSectorArray.set(i, Boolean.valueOf(filled));
+            this.filledSectorArray.set(i, filled);
         }
     }
 

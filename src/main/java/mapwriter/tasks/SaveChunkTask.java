@@ -26,7 +26,7 @@ public class SaveChunkTask extends Task {
             return false;
         } else {
             SaveChunkTask task2 = SaveChunkTask.chunksUpdating.get(coords);
-            if (task2.Running.get() == false) {
+            if (!task2.Running.get()) {
                 task2.UpdateChunkData(this.chunk, this.regionManager);
             } else {
                 SaveChunkTask.chunksUpdating.put(coords, this);

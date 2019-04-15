@@ -23,7 +23,7 @@ public class Render {
     public static int adjustPixelBrightness(int colour, int brightness) {
         int r = colour >> 16 & 0xff;
         int g = colour >> 8 & 0xff;
-        int b = colour >> 0 & 0xff;
+        int b = colour & 0xff;
         r = Math.min(Math.max(0, r + brightness), 0xff);
         g = Math.min(Math.max(0, g + brightness), 0xff);
         b = Math.min(Math.max(0, b + brightness), 0xff);
@@ -221,7 +221,7 @@ public class Render {
             double a = pixel >> 24 & 0xff;
             double r = pixel >> 16 & 0xff;
             double g = pixel >> 8 & 0xff;
-            double b = pixel >> 0 & 0xff;
+            double b = pixel & 0xff;
 
             totalA += a;
             totalR += r * a / 255.0;
@@ -278,11 +278,11 @@ public class Render {
         float c1A = c1 >> 24 & 0xff;
         float c1R = c1 >> 16 & 0xff;
         float c1G = c1 >> 8 & 0xff;
-        float c1B = c1 >> 0 & 0xff;
+        float c1B = c1 & 0xff;
         float c2A = c2 >> 24 & 0xff;
         float c2R = c2 >> 16 & 0xff;
         float c2G = c2 >> 8 & 0xff;
-        float c2B = c2 >> 0 & 0xff;
+        float c2B = c2 & 0xff;
         int r = (int) (c1R * c2R / 255.0f) & 0xff;
         int g = (int) (c1G * c2G / 255.0f) & 0xff;
         int b = (int) (c1B * c2B / 255.0f) & 0xff;
