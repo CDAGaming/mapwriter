@@ -229,7 +229,7 @@ public class MwGui extends GuiScreen {
         }
 
         if (this.mc.world != null) {
-            if (!this.mc.world.getChunkFromBlockCoords(new BlockPos(bX, 0, bZ)).isEmpty()) {
+            if (!this.mc.world.getChunk(new BlockPos(bX, 0, bZ)).isEmpty()) {
                 builder.append(", ");
                 builder.append(I18n.format("mw.gui.mwgui.status.biome", this.mc.world.getBiomeForCoordsBody(new BlockPos(bX, 0, bZ)).getBiomeName()));
             }

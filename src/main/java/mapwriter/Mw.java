@@ -67,8 +67,8 @@ public class Mw {
         this.mc = Minecraft.getMinecraft();
 
         // create base save directory
-        this.saveDir = new File(this.mc.mcDataDir, "saves");
-        this.configDir = new File(this.mc.mcDataDir, "config");
+        this.saveDir = new File(this.mc.gameDir, "saves");
+        this.configDir = new File(this.mc.gameDir, "config");
 
         this.ready = false;
 
@@ -530,7 +530,7 @@ public class Mw {
         this.playerZInt = (int) Math.floor(this.playerZ);
 
         if (this.mc.world != null) {
-            if (!this.mc.world.getChunkFromBlockCoords(new BlockPos(this.playerX, 0, this.playerZ)).isEmpty()) {
+            if (!this.mc.world.getChunk(new BlockPos(this.playerX, 0, this.playerZ)).isEmpty()) {
                 this.playerBiome =
                         this.mc.world.getBiomeForCoordsBody(new BlockPos(this.playerX, 0, this.playerZ)).getBiomeName();
             }
