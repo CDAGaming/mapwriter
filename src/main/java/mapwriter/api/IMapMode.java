@@ -3,43 +3,43 @@ package mapwriter.api;
 import java.awt.*;
 
 public interface IMapMode {
-    public Point.Double blockXZtoScreenXY(IMapView mapView, double bX, double bZ);
+    Point.Double blockXZtoScreenXY(IMapView mapView, double bX, double bZ);
 
-    public Point.Double getClampedScreenXY(IMapView mapView, double bX, double bZ);
+    Point.Double getClampedScreenXY(IMapView mapView, double bX, double bZ);
 
-    public IMapModeConfig getConfig();
+    IMapModeConfig getConfig();
 
-    public int getH();
+    int getH();
 
-    public int getHPixels();
+    int getHPixels();
 
-    public Point.Double getNewPosPoint(double mouseX, double mouseY);
+    Point.Double getNewPosPoint(double mouseX, double mouseY);
 
-    public int getTextColour();
+    int getTextColour();
 
-    public int getTextX();
+    int getTextX();
 
-    public int getTextY();
+    int getTextY();
 
-    public int getW();
+    int getW();
 
-    public int getWPixels();
+    int getWPixels();
 
-    public int getX();
+    int getX();
 
-    public int getXTranslation();
+    int getXTranslation();
 
-    public int getY();
+    int getY();
 
-    public int getYTranslation();
+    int getYTranslation();
 
-    public boolean posWithin(int mouseX, int mouseY);
+    boolean posWithin(int mouseX, int mouseY);
 
-    public Point screenXYtoBlockXZ(IMapView mapView, int sx, int sy);
+    Point screenXYtoBlockXZ(IMapView mapView, int sx, int sy);
 
-    public void setScreenRes();
+    void setScreenRes();
 
-    public void setScreenRes(int dw, int dh, int sw, int sh, double scaling);
+    void setScreenRes(int dw, int dh, int sw, int sh, double scaling);
 
-    public void updateMargin();
+    void updateMargin();
 }
